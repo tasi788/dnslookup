@@ -63,6 +63,7 @@ func main() {
 
 	domain := os.Args[1]
 	server := os.Args[2]
+	start := time.Now()
 
 	opts := upstream.Options{
 		Timeout:            time.Duration(timeout) * time.Second,
@@ -114,6 +115,8 @@ func main() {
 	if !machineReadable {
 		os.Stdout.WriteString("dnslookup result:\n")
 		os.Stdout.WriteString(reply.String() + "\n")
+		end := time.Since(start)
+		log.Printf("Query Time: %s", end)
 	} else {
 		b, err := json.MarshalIndent(reply, "", "  ")
 		if err != nil {
